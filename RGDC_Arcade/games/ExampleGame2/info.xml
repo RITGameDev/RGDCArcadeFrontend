@@ -2,7 +2,7 @@
 <game>
 	<meta>
 		<title>
-			Example Game
+			Example Game 2
 		</title>
 		<description>
 			This is a sample game folder used for testing purposes
@@ -13,8 +13,6 @@
 		<genres>
 			<genre id='action'/>
 			<genre id='shootemup'/>
-			<genre id='fighting'/>
-			<genre id='casual'/>
 		</genres>
 	</meta>
 

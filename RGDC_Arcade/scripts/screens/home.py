@@ -1,59 +1,160 @@
 # RGDC Arcade Machine Frontend
 # Game selection screen
 
-scrollwheelButtonSize = [250, 100]
+# Import scripts, packages, modules
+import math
+from .. import easing
+from .. import trigonometry
+Trigonometry = trigonometry.Trigonometry()
+from .. import gameManager
+GameManager = gameManager.GameManager
+Easing = easing.Easing()
 
+# Screen class
 class HomeScreen(object):
     # Initialize
     def __init__(self, pygame, resolution):
+        # Get resolution
+        self.WIDTH = resolution[0]
+        self.HEIGHT = resolution[1]
+
         # Attributes
         self.name = "Home"
         self.pygame = pygame
         self.resolution = resolution
 
         # Scrollwheel
-        self.gameButtons = [
-            {
-                'Position': [250, 250],
-                'Target Position': [0, 0],
-                'Scale': 1,
-                'Target Scale': 1
-            },
-            {
-                'Position': [350, 100],
-                'Target Position': [50, 0],
-                'Scale': 1.2,
-                'Target Scale': 1.2
+        self.gameButtons = []
+        self.buttonSize = [750, 300]
+        self.selectedGameName = ""
+
+    # Create a scrollwheel button
+    def addScrollwheelButton(self, data, index, totalButtons):
+        # Information about the button
+        verticalMargin = 6
+        halfwayPoint = math.ceil(totalButtons * 1.0 / 2)
+        listIndex = (index + 1) - halfwayPoint
+        newPosition = [self.WIDTH / 2, listIndex * (self.buttonSize[1] + verticalMargin) + (self.HEIGHT / 2)]
+        newScale = 1
+        if listIndex == 0:
+            newScale = 1.25
+            self.selectedGameName = data["Meta"]["Title"]
+        newButton = {
+            'Position': newPosition,
+            'Target Position': newPosition,
+            'Scale': newScale,
+            'Target Scale': newScale,
+            'Data': data,
+            'Order Index': math.floor(-math.fabs(listIndex))
             }
-        ]#use this info to draw each button in draw()
-        # when the user presses up or down, change the target position and scale, and change it each frame in update()
-        # make sure the left-most buttons are drawn on top (drawn last)
+
+        # Add information to the list of scrollwheel buttons
+        self.gameButtons.append(newButton)
 
     # Game logic
     def update(self):
-        pass
+        # Change the scale and position of the buttons
+        for i in range(len(self.gameButtons)):
+            listIndex = (i + 1) - math.ceil(len(self.gameButtons) * 1.0 / 2)
+            self.gameButtons[i]["Visible"] = math.fabs(listIndex) <= 2
+            self.gameButtons[i]["Position"][0] += (self.gameButtons[i]["Target Position"][0] - self.gameButtons[i]["Position"][0]) * 0.1
+            self.gameButtons[i]["Position"][1] += (self.gameButtons[i]["Target Position"][1] - self.gameButtons[i]["Position"][1]) * 0.1
+            self.gameButtons[i]["Scale"] += (self.gameButtons[i]["Target Scale"] - self.gameButtons[i]["Scale"]) * 0.1
 
     # Draw things
     def draw(self, screen):
-        # Get resolution
-        WIDTH = self.resolution[0]
-        HEIGHT = self.resolution[1]
-
         # Background
         screen.fill((0, 0, 0))
 
-        # Scrollwheel buttons
+        # Order buttons
+        minOrderIndex = 99999
         for i in range(len(self.gameButtons)):
-            self.pygame.draw.rect(screen, (255, 255, 255), [self.gameButtons[i]["Position"][0] - (scrollwheelButtonSize[0] / 2), self.gameButtons[i]["Position"][1] - (scrollwheelButtonSize[1] / 2), scrollwheelButtonSize[0], scrollwheelButtonSize[1]])
+            if self.gameButtons[i]["Order Index"] < minOrderIndex:
+                minOrderIndex = self.gameButtons[i]["Order Index"]
+        buttonsAtIndex = []
+        for i in range(math.floor(math.fabs(minOrderIndex)) + 1):
+            buttonsAtIndex.append([])
+        for i in range(len(self.gameButtons)):
+            buttonsAtIndex[math.floor(math.fabs(self.gameButtons[i]["Order Index"]))].append(i)
+        buttonsAtIndex.reverse()
+        #print(buttonsAtIndex)
+
+        # Draw buttons
+        for j in range(len(buttonsAtIndex)):
+            for i in buttonsAtIndex[j]:
+                # Shadow
+                self.pygame.draw.rect(screen, (0, 0, 0), [
+                    self.gameButtons[i]["Position"][0] - ((self.buttonSize[0] * self.gameButtons[i]["Scale"]) / 2),
+                    self.gameButtons[i]["Position"][1] - ((self.buttonSize[1] * self.gameButtons[i]["Scale"]) / 2) + 2,
+                    self.buttonSize[0] * self.gameButtons[i]["Scale"],
+                    self.buttonSize[1] * self.gameButtons[i]["Scale"]
+                    ])
+                # Top
+                self.pygame.draw.rect(screen, ((j + 1) * (255.0 / len(buttonsAtIndex)), (j + 1) * (255.0 / len(buttonsAtIndex)), (j + 1) * (255.0 / len(buttonsAtIndex))), [
+                    self.gameButtons[i]["Position"][0] - ((self.buttonSize[0] * self.gameButtons[i]["Scale"]) / 2),
+                    self.gameButtons[i]["Position"][1] - ((self.buttonSize[1] * self.gameButtons[i]["Scale"]) / 2),
+                    self.buttonSize[0] * self.gameButtons[i]["Scale"],
+                    self.buttonSize[1] * self.gameButtons[i]["Scale"]
+                    ])
+                # Game thumbnail
+                tempScaledThumbnail = self.pygame.transform.scale(self.gameButtons[i]["Data"]["Images"]["Thumbnail"], (math.floor(self.buttonSize[1] * self.gameButtons[i]["Scale"] - 20), math.floor(self.buttonSize[1] * self.gameButtons[i]["Scale"] - 20)))
+                screen.blit(tempScaledThumbnail, [
+                    self.gameButtons[i]["Position"][0] - (self.buttonSize[0] / 2 * self.gameButtons[i]["Scale"]) + 10,
+                    self.gameButtons[i]["Position"][1] - (self.buttonSize[1] / 2 * self.gameButtons[i]["Scale"]) + 10
+                    ])
+                # Game title
+                gameTitleSurface = self.pygame.font.SysFont('Arial', 36, True, False).render(self.gameButtons[i]["Data"]["Meta"]["Title"], True, (0, 0, 0))
+                screen.blit(gameTitleSurface, [
+                    self.gameButtons[i]["Position"][0] - (self.buttonSize[0] / 2 * self.gameButtons[i]["Scale"]) + 10 + tempScaledThumbnail.get_width() + 10,
+                    self.gameButtons[i]["Position"][1] - (self.buttonSize[1] / 2 * self.gameButtons[i]["Scale"]) + 10
+                    ])
+                # Game title
+                gameAuthorSurface = self.pygame.font.SysFont('Arial', 18, True, False).render(self.gameButtons[i]["Data"]["Meta"]["Author"], True, (0, 0, 0))
+                screen.blit(gameAuthorSurface, [
+                    self.gameButtons[i]["Position"][0] - (self.buttonSize[0] / 2 * self.gameButtons[i]["Scale"]) + 12 + tempScaledThumbnail.get_width() + 10,
+                    self.gameButtons[i]["Position"][1] - (self.buttonSize[1] / 2 * self.gameButtons[i]["Scale"]) + 48
+                    ])
 
     # Get keyboard input:
     def keyPress(self, direction, key):
         # A key was pressed down:
         if direction == "down":
+            rotated = False
             if key == self.pygame.K_UP or key == self.pygame.K_w:
-                print("up")
+                # Change index of all buttons
+                backUpButton = self.gameButtons[len(self.gameButtons) - 1]
+                for i in range(len(self.gameButtons) - 1):
+                    index = len(self.gameButtons) - i - 1
+                    self.gameButtons[index] = self.gameButtons[index - 1]
+                self.gameButtons[0] = backUpButton
+                rotated = True
+
             elif key == self.pygame.K_DOWN or key == self.pygame.K_s:
-                print("down")
+                # Change index of all buttons
+                backUpButton = self.gameButtons[0]
+                for i in range(len(self.gameButtons) - 1):
+                    self.gameButtons[i] = self.gameButtons[i + 1]
+                self.gameButtons[len(self.gameButtons) - 1] = backUpButton
+                rotated = True
+
+            elif key == self.pygame.K_SPACE:
+                GameManager.LaunchGame(self.selectedGameName)
+
+            ## Rotate wheel:
+            if rotated:
+                # Change target position & scale of all buttons
+                verticalMargin = 6
+                halfwayPoint = math.ceil(len(self.gameButtons) * 1.0 / 2)
+                for i in range(len(self.gameButtons)):
+                    listIndex = (i + 1) - halfwayPoint
+                    self.gameButtons[i]["Order Index"] = math.floor(-math.fabs(listIndex))
+                    newPosition = [self.WIDTH / 2, listIndex * (self.buttonSize[1] + verticalMargin) + (self.HEIGHT / 2)]
+                    self.gameButtons[i]["Target Position"] = newPosition
+                    newScale = 1
+                    if listIndex == 0:
+                        newScale = 1.25
+                        self.selectedGameName = self.gameButtons[i]["Data"]["Meta"]["Title"]
+                    self.gameButtons[i]["Target Scale"] = newScale
 
         # A key was released:
         else:

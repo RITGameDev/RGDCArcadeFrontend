@@ -2,7 +2,7 @@
 
 # Settings
 DEBUGGING = True
-RESOLUTION = (1024, 728)
+RESOLUTION = (1080, 720)#(1280, 768)
 TITLE = "RGDC Arcade Machine"
 
 # Start pygame
@@ -49,6 +49,8 @@ try:
         LoadingScreen.print("Loading metadata from path: /games/" + path + "...")
         newGameData = ReadGameData(UntangleXML, path)
         if newGameData is not None:
+            thumbnailFilePath = "games/" + newGameData["Meta"]["Folder Name"] + "/game/" + newGameData["FilePaths"]["Thumbnail"]
+            newGameData["Images"]["Thumbnail"] = pygame.image.load(thumbnailFilePath)
             games.append({
                 'Path': path,
                 'Data': newGameData
@@ -58,11 +60,15 @@ except:
     print("[ERROR] Couldn't load game metadata: " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
 LoadingScreen.print("Finished gathering game metadata")
 
+# Add a button for each game
+for i in range(len(games)):
+    HomeScreen.addScrollwheelButton(games[i]["Data"], i, len(games))
+
 # Start the main loop
 LoadingScreen.print("Starting arcade machine...")
 running = True
 while running:
-    # 
+    #
     for event in pygame.event.get():
         # When pygame receives a QUIT event, exit the main loop
         if event.type == pygame.QUIT:
@@ -82,7 +88,7 @@ while running:
                     Screensaver.keyPress(keyDirection, event.key)
             except:
                 print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but could not pass event.key to current screen: " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
-                
+
 
     # Background - this should be overridden in each screen's draw() method
     screen.fill((0, 0, 255))
@@ -105,7 +111,7 @@ while running:
             Screensaver.draw(screen)
     except:
         print("[ERROR] " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
-    
+
     # Show debugging information
     if DEBUGGING:
         screen.blit(debuggingFont.render("MACHINE_STATE: " + str(MACHINE_STATE), True, (0, 255, 0)), [0, 0])
