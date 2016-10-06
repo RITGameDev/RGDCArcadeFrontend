@@ -2,7 +2,10 @@
 
 # Settings
 DEBUGGING = True
-RESOLUTION = (1080, 720)#(1280, 768)
+FULLSCREEN = False #Fullscreen can cause errors when running games
+                   #Instead, maybe set the resolution to the screen size
+                   # and make the window borderless
+RESOLUTION = (1280, 720)#(1280, 768)
 TITLE = "RGDC Arcade Machine"
 
 # Start pygame
@@ -11,9 +14,17 @@ pygame.init()
 pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
 # Create the display window
-screen = pygame.display.set_mode(RESOLUTION)
+screen = None
+print("pygame.display.get_driver(): " + str(pygame.display.get_driver()))
+print("pygame.display.Info(): " + str(pygame.display.Info()))
+screen = None
+if FULLSCREEN:
+    screen = pygame.display.set_mode(RESOLUTION, FULLSCREEN)
+else:
+    screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption(TITLE)
 clock = pygame.time.Clock()
+
 
 # Import scripts, modules, and packages
 import os, sys
@@ -87,7 +98,7 @@ while running:
                 elif MACHINE_STATE == MachineState.Screensaver:
                     Screensaver.keyPress(keyDirection, event.key)
             except:
-                print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but could not pass event.key to current screen: " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
+                print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but there was an error passing event.key to current screen /// " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
 
 
     # Background - this should be overridden in each screen's draw() method
@@ -104,7 +115,9 @@ while running:
             if finishedLoading: MACHINE_STATE = MachineState.Home
             else: LoadingScreen.draw(screen)
         elif MACHINE_STATE == MachineState.Home:
-            HomeScreen.update()
+            userQuit = HomeScreen.update()
+            if userQuit:
+                break
             HomeScreen.draw(screen)
         elif MACHINE_STATE == MachineState.Screensaver:
             Screensaver.update()

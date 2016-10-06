@@ -4,11 +4,12 @@
 # Import scripts, packages, modules
 import math
 from .. import easing
+Easing = easing.Easing()
 from .. import trigonometry
 Trigonometry = trigonometry.Trigonometry()
 from .. import gameManager
 GameManager = gameManager.GameManager
-Easing = easing.Easing()
+from .. import gradient
 
 # Screen class
 class HomeScreen(object):
@@ -138,7 +139,20 @@ class HomeScreen(object):
                 rotated = True
 
             elif key == self.pygame.K_SPACE:
-                GameManager.LaunchGame(self.selectedGameName)
+                # Get the selected game's metadata
+                thisGameData = None
+                for button in self.gameButtons:
+                    if button["Data"]["Meta"]["Title"] == self.selectedGameName:
+                        thisGameData = button["Data"]
+
+                # If the metadata was found, launch the game
+                if thisGameData is not None:
+                    GameManager.LaunchGame(thisGameData)
+
+            elif key == self.pygame.K_ESCAPE:
+                # Quit the arcade machine
+                self.pygame.quit()
+                return True
 
             ## Rotate wheel:
             if rotated:
@@ -155,6 +169,9 @@ class HomeScreen(object):
                         newScale = 1.25
                         self.selectedGameName = self.gameButtons[i]["Data"]["Meta"]["Title"]
                     self.gameButtons[i]["Target Scale"] = newScale
+
+            # Return FALSE because the user did not quit the arcade machine
+            return False
 
         # A key was released:
         else:

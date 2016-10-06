@@ -20,7 +20,7 @@
 
 	<filepaths>
 		<thumbnail>
-			images/thumbnail.jpg
+			images\thumbnail.jpg
 		</thumbnail>
 		<executable>
 			main.py
