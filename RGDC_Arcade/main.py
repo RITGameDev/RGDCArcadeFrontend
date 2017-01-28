@@ -14,7 +14,6 @@ pygame.init()
 pygame.mouse.set_cursor(*pygame.cursors.broken_x)
 
 # Create the display window
-screen = None
 print("pygame.display.get_driver(): " + str(pygame.display.get_driver()))
 print("pygame.display.Info(): " + str(pygame.display.Info()))
 screen = None
@@ -24,7 +23,6 @@ else:
     screen = pygame.display.set_mode(RESOLUTION)
 pygame.display.set_caption(TITLE)
 clock = pygame.time.Clock()
-
 
 # Import scripts, modules, and packages
 import os, sys
@@ -48,6 +46,7 @@ LoadingScreen.print("Loaded screensaver")
 MACHINE_STATE = MachineState.Intro
 WIDTH = RESOLUTION[0]
 HEIGHT = RESOLUTION[1]
+IS_GAME_RUNNING = False
 
 # Fonts
 debuggingFont = pygame.font.SysFont('Courier', 14, True, False)
@@ -79,7 +78,6 @@ for i in range(len(games)):
 LoadingScreen.print("Starting arcade machine...")
 running = True
 while running:
-    #
     for event in pygame.event.get():
         # When pygame receives a QUIT event, exit the main loop
         if event.type == pygame.QUIT:

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<game>
+	<meta>
+		<title>
+			Wario Land 3
+		</title>
+		<description>
+			A platformer game found on the PyGame website
+		</description>
+		<author>
+			Bugme Not (bugmenot)
+		</author>
+		<genres>
+			<genre id='platforming'/>
+		</genres>
+	</meta>
+
+	<filepaths>
+		<thumbnail>
+			tileset_n1.png
+		</thumbnail>
+		<executable>
+			main.py
+		</executable>
+	</filepaths>
+</game>

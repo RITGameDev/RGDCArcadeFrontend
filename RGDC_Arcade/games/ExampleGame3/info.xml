@@ -2,7 +2,7 @@
 <game>
 	<meta>
 		<title>
-			Example Game 3
+			TEST Divide by Zero
 		</title>
 		<description>
 			This is a sample game folder used for testing purposes
@@ -12,13 +12,13 @@
 		</author>
 		<genres>
 			<genre id='action'/>
-			<genre id='fighting'/>
+			<genre id='casual'/>
 		</genres>
 	</meta>
 
 	<filepaths>
 		<thumbnail>
-			images/thumbnail.jpg
+			images\thumbnail.jpg
 		</thumbnail>
 		<executable>
 			main.py

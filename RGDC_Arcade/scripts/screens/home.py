@@ -23,6 +23,13 @@ class HomeScreen(object):
         self.name = "Home"
         self.pygame = pygame
         self.resolution = resolution
+        self.backgroundColors = [
+            [255, 0, 0],
+            [0, 255, 0],
+            [0, 0, 255]
+        ]
+        self.currentBackgroundColorIndex = 0
+        self.currentBackgroundColor = self.backgroundColors[self.currentBackgroundColorIndex]
 
         # Scrollwheel
         self.gameButtons = []
@@ -52,8 +59,24 @@ class HomeScreen(object):
         # Add information to the list of scrollwheel buttons
         self.gameButtons.append(newButton)
 
+    # Change background color
+    def changeBackgroundColor(self):
+        self.currentBackgroundColor[0] += (self.backgroundColors[self.currentBackgroundColorIndex][0] - self.currentBackgroundColor[0]) * 0.01
+        self.currentBackgroundColor[1] += (self.backgroundColors[self.currentBackgroundColorIndex][1] - self.currentBackgroundColor[1]) * 0.01
+        self.currentBackgroundColor[2] += (self.backgroundColors[self.currentBackgroundColorIndex][2] - self.currentBackgroundColor[2]) * 0.01
+        redEqual = abs(self.currentBackgroundColor[0] - self.backgroundColors[self.currentBackgroundColorIndex][0]) <= 0.01
+        greenEqual = abs(self.currentBackgroundColor[1] - self.backgroundColors[self.currentBackgroundColorIndex][1]) <= 0.01
+        blueEqual = abs(self.currentBackgroundColor[2] - self.backgroundColors[self.currentBackgroundColorIndex][2]) <= 0.01
+        if redEqual and greenEqual and blueEqual:
+            self.currentBackgroundColorIndex += 1
+            if self.currentBackgroundColorIndex >= len(self.backgroundColors):
+                self.currentBackgroundColorIndex = 0
+
     # Game logic
     def update(self):
+        # Change background color
+        self.changeBackgroundColor()
+
         # Change the scale and position of the buttons
         for i in range(len(self.gameButtons)):
             listIndex = (i + 1) - math.ceil(len(self.gameButtons) * 1.0 / 2)
@@ -65,7 +88,7 @@ class HomeScreen(object):
     # Draw things
     def draw(self, screen):
         # Background
-        screen.fill((0, 0, 0))
+        screen.fill((self.currentBackgroundColor[0], self.currentBackgroundColor[1], self.currentBackgroundColor[2]))
 
         # Order buttons
         minOrderIndex = 99999

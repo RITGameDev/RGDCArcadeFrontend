@@ -2,7 +2,7 @@
 <game>
 	<meta>
 		<title>
-			Example Game 2
+			TEST Wait 3 seconds
 		</title>
 		<description>
 			This is a sample game folder used for testing purposes
@@ -13,12 +13,13 @@
 		<genres>
 			<genre id='action'/>
 			<genre id='shootemup'/>
+			<genre id='casual'/>
 		</genres>
 	</meta>
 
 	<filepaths>
 		<thumbnail>
-			images/thumbnail.jpg
+			images\thumbnail.jpg
 		</thumbnail>
 		<executable>
 			main.py
