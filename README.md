@@ -37,6 +37,10 @@ Now you have pygame installed and are ready to go! To start the front end of thi
 ***
 
 # Useful Resources:
+[Python Official](https://www.python.org/download/releases/3.0/)
+
+[Getting started with Pygame](https://www.pygame.org/wiki/GettingStarted)
+
 [XOutput](https://github.com/Stents-/XOutput/releases/tag/v0.11)
 
 [X game room](http://www.xgameroom.com/service/ServiceFiles/XOutput.ini)
