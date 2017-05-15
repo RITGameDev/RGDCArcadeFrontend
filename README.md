@@ -30,3 +30,19 @@ http://www.blendedtechnologies.com/realtime-plot-of-arduino-serial-data-using-py
 etc...
 
 
+# How to Install Pygame on Windows 10
+
+Download Python 3.6.1 or greater from [Python.org](https://www.python.org/)
+
+Run the `python-3.6.1.exe`, and make sure that you check the "Create Enviornment Variables" option. 
+
+Open up command prompt, or powershell AS ADMIN (Right click on it in windows and click 'Run As Administrator')
+
+Type the following commands to install Pygame:
+`pip install pygame --user`
+
+Type the following commands to install pipwin32:
+`pip install pypiwin32`
+
+Now you have pygame installed and are ready to go! To start the front end of this project, go to the folder that you have downloaded it to, and run `main.py`.  
+
