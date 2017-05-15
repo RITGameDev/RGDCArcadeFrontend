@@ -1,26 +1,14 @@
-# RGDCArcadeFrontend
-RGDC Arcade Machine
----
----
-This is the front-end for the arcade machine created by the RIT Game Development Club. Features:
+# Features:
 - Game selection screen with sorting, filters, and a search function
 - Accessing game metadata through XML files
 - Launching game executables
 - Returning to the game selection screen when a game closes
 - Starting up automatically in place of the usual Windows boot sequence
 
-USEFUL RESOURCES:
-https://github.com/Stents-/XOutput/releases/tag/v0.11
-http://www.xgameroom.com/service/ServiceFiles/XOutput.ini
-http://www.headsoft.com.au/index.php?category=vjoy
-http://www.xgameroom.com/service/ServiceFiles/X-Arcade.ini
-https://support.xgaming.com/support/solutions/articles/12000003227-use-x-arcade-as-a-windows-joystick-gamepad-controller-xinput-
-https://downloads.sourceforge.net/project/pywin32/pywin32/Build216/README.txt?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fpywin32%2F&ts=1494374073&use_mirror=svwh
-
-REQUIRES:
+# Requirements:
 - pygame
-- most recent pip version
-- win32api (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20221/)
+- pip
+- win32api 
 - VJoy
 - XOutput
 - python 3.6.1
@@ -46,3 +34,13 @@ Type the following commands to install pipwin32:
 
 Now you have pygame installed and are ready to go! To start the front end of this project, go to the folder that you have downloaded it to, and run `main.py`.  
 
+
+
+
+# Useful Resources:
+[XOutput](https://github.com/Stents-/XOutput/releases/tag/v0.11)
+[X game room](http://www.xgameroom.com/service/ServiceFiles/XOutput.ini)
+[Headsoft, VJoy](http://www.headsoft.com.au/index.php?category=vjoy)
+[X Arcade fomr X Gameroom](http://www.xgameroom.com/service/ServiceFiles/X-Arcade.ini)
+[X Gameroom, using a windows joystick](https://support.xgaming.com/support/solutions/articles/12000003227-use-x-arcade-as-a-windows-joystick-gamepad-controller-xinput-)
+***
