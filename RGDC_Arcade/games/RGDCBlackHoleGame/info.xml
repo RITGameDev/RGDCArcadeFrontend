@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<game>
+	<meta>
+		<title>
+			RGDC Black Hole Game
+		</title>
+		<description>
+			A game about Black Holes!
+		</description>
+		<author>
+			Ben Hoffman
+		</author>
+		<genres>
+			<genre id='action'/>
+			<genre id='casual'/>
+		</genres>
+	</meta>
+
+	<filepaths>
+		<thumbnail>
+			images\RGDC.png
+		</thumbnail>
+		<executable>
+			BlackHole.exe
+		</executable>
+	</filepaths>
+</game>

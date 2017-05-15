@@ -1,12 +1,18 @@
 # RGDC Arcade Machine Frontend
-
+from win32api import GetSystemMetrics
+import time
 # Settings
-DEBUGGING = True
-FULLSCREEN = False #Fullscreen can cause errors when running games
+DEBUGGING = False
+FULLSCREEN = True #Fullscreen can cause errors when running games
                    #Instead, maybe set the resolution to the screen size
                    # and make the window borderless
-RESOLUTION = (1280, 720)#(1280, 768)
-TITLE = "RGDC Arcade Machine"
+RESOLUTION = (GetSystemMetrics(0), GetSystemMetrics(0)/2)#(? w = 1280, ? h = 768)
+TITLE = "RGDC Arcade Machine - In honor of Logan Guidry\'s Contributions"
+
+import os
+x = 0
+y = 0
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 
 # Start pygame
 import pygame
@@ -18,9 +24,10 @@ print("pygame.display.get_driver(): " + str(pygame.display.get_driver()))
 print("pygame.display.Info(): " + str(pygame.display.Info()))
 screen = None
 if FULLSCREEN:
-    screen = pygame.display.set_mode(RESOLUTION, FULLSCREEN)
+    screen = pygame.display.set_mode((0,0), pygame.NOFRAME)
+    pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
 else:
-    screen = pygame.display.set_mode(RESOLUTION)
+    screen = pygame.display.set_mode((0,0))
 pygame.display.set_caption(TITLE)
 clock = pygame.time.Clock()
 
@@ -49,7 +56,7 @@ HEIGHT = RESOLUTION[1]
 IS_GAME_RUNNING = False
 
 # Fonts
-debuggingFont = pygame.font.SysFont('Courier', 14, True, False)
+debuggingFont = pygame.font.SysFont('Segoe UI', 18, True, False)
 
 # Get game information
 LoadingScreen.print("Gathering game metadata...")
@@ -95,21 +102,26 @@ while running:
                     HomeScreen.keyPress(keyDirection, event.key)
                 elif MACHINE_STATE == MachineState.Screensaver:
                     Screensaver.keyPress(keyDirection, event.key)
+                	
+                if (e.type is KEYDOWN and e.key == K_f):
+                    if screen.get_flags() & FULLSCREEN:
+                        pygame.display.set_mode(size)
+                    else:
+                        pygame.display.set_mode(size, FULLSCREEN)
             except:
                 print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but there was an error passing event.key to current screen /// " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
-
-
-    # Background - this should be overridden in each screen's draw() method
-    screen.fill((0, 0, 255))
-    blueScreenText = debuggingFont.render("RIT Game Development Club Arcade Machine", True, (255, 255, 255))
-    screen.blit(blueScreenText, [WIDTH - blueScreenText.get_rect().width, 0])
-    blueScreenText = debuggingFont.render("(c) 2016", True, (255, 255, 255))
-    screen.blit(blueScreenText, [WIDTH - blueScreenText.get_rect().width, 16])
 
     # Run the current screen's update and draw code
     try:
         if MACHINE_STATE == MachineState.Intro:
+		    # Background - this should be overridden in each screen's draw() method
+            screen.fill((16, 25, 25))
+            blueScreenText = debuggingFont.render("RIT Game Development Club Arcade Machine", True, (255, 255, 255))
+            screen.blit(blueScreenText, [WIDTH/2 - blueScreenText.get_rect().width/2, 0])
+            blueScreenText = debuggingFont.render("(c) 2016", True, (255, 255, 255))
+            screen.blit(blueScreenText, [WIDTH/2 - blueScreenText.get_rect().width/2, 16])
             finishedLoading = LoadingScreen.update()
+            time.sleep(10)
             if finishedLoading: MACHINE_STATE = MachineState.Home
             else: LoadingScreen.draw(screen)
         elif MACHINE_STATE == MachineState.Home:
@@ -127,12 +139,14 @@ while running:
     if DEBUGGING:
         screen.blit(debuggingFont.render("MACHINE_STATE: " + str(MACHINE_STATE), True, (0, 255, 0)), [0, 0])
         screen.blit(debuggingFont.render("len(games): " + str(len(games)), True, (0, 255, 0)), [0, 16])
-
+    else:
+        screen.blit(debuggingFont.render("RGDC-MAGIC Arcade Machine", True, (0, 255, 0)), [0, 0])
+        screen.blit(debuggingFont.render("in honor of Logan Guidry", True, (0, 255, 0)), [0, 16])
     # Update screen
     pygame.display.flip()
 
     # Limit to 60 FPS
-    clock.tick(60)
+    # clock.tick(60)
 
 # Main loop stopped running, stop pygame
 pygame.quit()

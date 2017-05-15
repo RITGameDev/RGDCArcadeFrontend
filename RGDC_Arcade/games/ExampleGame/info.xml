@@ -2,7 +2,7 @@
 <game>
 	<meta>
 		<title>
-			TEST Print to console
+			Example Game 7
 		</title>
 		<description>
 			This is a sample game folder used for testing purposes
@@ -20,7 +20,7 @@
 
 	<filepaths>
 		<thumbnail>
-			images\thumbnail.jpg
+			images/thumbnail.jpg
 		</thumbnail>
 		<executable>
 			main.py

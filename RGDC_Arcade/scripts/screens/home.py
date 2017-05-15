@@ -24,9 +24,11 @@ class HomeScreen(object):
         self.pygame = pygame
         self.resolution = resolution
         self.backgroundColors = [
-            [255, 0, 0],
-            [0, 255, 0],
-            [0, 0, 255]
+            [1, 59, 73],
+            [16, 34, 38],
+            [12, 17, 18],
+            [8, 54, 32],
+            [17, 43, 30]
         ]
         self.currentBackgroundColorIndex = 0
         self.currentBackgroundColor = self.backgroundColors[self.currentBackgroundColorIndex]
