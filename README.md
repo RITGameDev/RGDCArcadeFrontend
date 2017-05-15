@@ -13,11 +13,6 @@
 - XOutput
 - python 3.6.1
 
-FUTURE THOUGHTS:
-http://www.blendedtechnologies.com/realtime-plot-of-arduino-serial-data-using-python
-etc...
-
-
 # How to Install Pygame on Windows 10
 
 Download Python 3.6.1 or greater from [Python.org](https://www.python.org/)
@@ -34,13 +29,20 @@ Type the following commands to install pipwin32:
 
 Now you have pygame installed and are ready to go! To start the front end of this project, go to the folder that you have downloaded it to, and run `main.py`.  
 
+***
 
+# Future thoughts...
+[Using and Arduino for input](http://www.blendedtechnologies.com/realtime-plot-of-arduino-serial-data-using-python)
 
+***
 
 # Useful Resources:
 [XOutput](https://github.com/Stents-/XOutput/releases/tag/v0.11)
+
 [X game room](http://www.xgameroom.com/service/ServiceFiles/XOutput.ini)
+
 [Headsoft, VJoy](http://www.headsoft.com.au/index.php?category=vjoy)
+
 [X Arcade fomr X Gameroom](http://www.xgameroom.com/service/ServiceFiles/X-Arcade.ini)
+
 [X Gameroom, using a windows joystick](https://support.xgaming.com/support/solutions/articles/12000003227-use-x-arcade-as-a-windows-joystick-gamepad-controller-xinput-)
-***
