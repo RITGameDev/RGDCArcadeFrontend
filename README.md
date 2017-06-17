@@ -50,3 +50,5 @@ Now you have pygame installed and are ready to go! To start the front end of thi
 [X Arcade fomr X Gameroom](http://www.xgameroom.com/service/ServiceFiles/X-Arcade.ini)
 
 [X Gameroom, using a windows joystick](https://support.xgaming.com/support/solutions/articles/12000003227-use-x-arcade-as-a-windows-joystick-gamepad-controller-xinput-)
+
+http://theseger.com/projects/2014/12/combine-multiple-game-controllers-single-logical-one/
