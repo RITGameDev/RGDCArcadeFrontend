@@ -24,11 +24,12 @@ Open up command prompt, or powershell AS ADMIN (Right click on it in windows and
 Type the following commands to install Pygame:
 `pip install pygame --user`
 
-Type the following commands to install pipwin32:
+Type the following commands to install pypiwin32:
 `pip install pypiwin32`
 
 Now you have pygame installed and are ready to go! To start the front end of this project, go to the folder that you have downloaded it to, and run `main.py`.  
 
+THIS DIRECTORY CANNOT HAVE ANY SPACES IN IT!!!!
 ***
 
 # Future thoughts...

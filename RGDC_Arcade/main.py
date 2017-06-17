@@ -103,13 +103,13 @@ while running:
                 elif MACHINE_STATE == MachineState.Screensaver:
                     Screensaver.keyPress(keyDirection, event.key)
                 	
-                if (e.type is KEYDOWN and e.key == K_f):
+                if (event.type is KEYDOWN and event.key == K_f):
                     if screen.get_flags() & FULLSCREEN:
                         pygame.display.set_mode(size)
                     else:
                         pygame.display.set_mode(size, FULLSCREEN)
             except:
-                print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but there was an error passing event.key to current screen /// " + ' /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
+                print("[ERROR] Received event pygame.KEYDOWN or pygame.KEYUP, but there was an error passing event.key to current screen /// " + '\n /// '.join((str(errorInfo) for errorInfo in sys.exc_info())))
 
     # Run the current screen's update and draw code
     try:

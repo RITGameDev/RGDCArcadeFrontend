@@ -163,7 +163,8 @@ class HomeScreen(object):
                 self.gameButtons[len(self.gameButtons) - 1] = backUpButton
                 rotated = True
 
-            elif key == self.pygame.K_SPACE:
+            elif key == self.pygame.K_RETURN:
+                print("HI")
                 # Get the selected game's metadata
                 thisGameData = None
                 for button in self.gameButtons:
