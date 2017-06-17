@@ -8,7 +8,7 @@
 # Requirements:
 - pygame
 - pip
-- win32api 
+- pypiwin32 
 - VJoy
 - XOutput
 - python 3.6.1
